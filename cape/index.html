@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tool Cape — MCfrom</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<link rel="stylesheet" href="../css/tool-shared.css">
+</head>
+<body class="mct">
+
+  <div class="mct-topbar">
+    <button class="mct-back" onclick="history.back()">←</button>
+    <div class="mct-title">Tool Cape</div>
+    <div class="mct-usage" id="capeUsageBadge">جارٍ التحميل...</div>
+  </div>
+
+  <!-- Upload + generation card -->
+  <div class="mct-card">
+    <div class="mct-eyebrow">تصميم الكيب</div>
+    <div class="mct-desc">ارفع صورة متحركة (GIF أو WebP) وسيتم دمجها تلقائيًا مع قالب الكيب الأساسي.</div>
+
+    <div class="mct-label">تصميم الكيب <span class="req">*</span></div>
+    <div class="mct-upload" id="capeUpload">
+      <input type="file" id="capeUploadInput" accept="image/gif,image/webp,.gif,.webp">
+      <div class="mct-upload-title" id="capeUploadTitle">Upload GIF/WebP</div>
+      <div class="mct-filename" id="capeUploadFilename"></div>
+    </div>
+    <div class="mct-hint">ارفع GIF متحرك أو WebP متحرك ليتم استخراج الفريمات ودمجها في مكان الكيب تلقائيًا.</div>
+
+    <hr class="mct-divider">
+
+    <div class="mct-label">سكن الشخصية للمعاينة (اختياري)</div>
+    <div class="mct-upload" id="skinUpload" style="padding:16px;">
+      <input type="file" id="skinUploadInput" accept="image/png">
+      <div class="mct-upload-title" id="skinUploadTitle">Upload PNG (اختياري)</div>
+    </div>
+    <div class="mct-hint">
+      إن لم ترفع سكن، سيُستخدم سكن ستيف الافتراضي. سكنك المرفوع يُحفظ تلقائيًا ليظهر في زياراتك القادمة.
+      <button class="mct-icon-btn" id="skinResetBtn" style="margin-top:8px;">↺ استخدام السكن الافتراضي</button>
+    </div>
+
+    <hr class="mct-divider">
+
+    <div class="mct-field">
+      <div class="mct-checkbox-row">
+        <input type="checkbox" id="duplicateSidesCheckbox">
+        <label for="duplicateSidesCheckbox">تكرار التصميم على الجانبين (لأنماط أعرض)</label>
+      </div>
+      <div class="mct-field-row">
+        <span>الفجوة بين النسختين</span>
+        <input type="number" class="mct-input" id="sideGapInput" value="4" min="0" max="40" style="width:70px">
+      </div>
+      <div class="mct-field-row">
+        <span>الاتجاه</span>
+        <select class="mct-select" id="sideDirectionSelect">
+          <option value="right">يمين</option>
+          <option value="left">يسار</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mct-actions">
+      <button class="mct-btn mct-btn-secondary" id="capeResetBtn">إعادة تعيين</button>
+      <button class="mct-btn mct-btn-primary" id="capeCreateBtn" disabled>⚡ إنشاء</button>
+    </div>
+    <div class="mct-actions">
+      <button class="mct-btn mct-btn-primary mct-btn-full" id="capeDownloadBtn" disabled>📤 إرسال إلى تيليجرام</button>
+    </div>
+
+    <div class="mct-status" id="capeStatus"></div>
+  </div>
+
+  <!-- 3D viewer — always visible at the bottom -->
+  <div class="mct-viewer-card">
+    <div class="mct-viewer-head">
+      <div class="mct-viewer-title">معاينة ثلاثية الأبعاد</div>
+      <div class="mct-viewer-controls">
+        <button class="mct-icon-btn" id="capePlayPauseBtn">⏸ إيقاف الحركة</button>
+        <select class="mct-select" id="capeSpeedSelect">
+          <option value="180">بطيء</option>
+          <option value="100" selected>عادي</option>
+          <option value="60">سريع</option>
+        </select>
+      </div>
+    </div>
+    <div class="mct-viewer-wrap" id="capeViewerWrap">
+      <div class="mct-viewer-loading" id="capeViewerLoading">⏳ جارٍ تحميل النموذج...</div>
+    </div>
+    <div class="mct-viewer-hint">🖱️ اسحب للتدوير • 📜 عجلة الفأرة للتكبير</div>
+  </div>
+
+<script src="../js/telegram-integration.js"></script>
+<script src="../js/gif-decoder.js"></script>
+<script src="../js/webp-decoder.js"></script>
+<script src="../js/zip-writer.js"></script>
+<script src="../js/steve-model-data.js"></script>
+<script src="../js/cape-viewer-3d.js"></script>
+<script src="../js/cape-app.js"></script>
+</body>
+        </html>
+        
